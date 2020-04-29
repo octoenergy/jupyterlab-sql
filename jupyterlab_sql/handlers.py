@@ -5,6 +5,12 @@ from notebook.utils import url_path_join
 from notebook.base.handlers import IPythonHandler
 import tornado.ioloop
 
+try:
+    import tentaclio
+    use_tentaclio = True
+except ModuleNotFoundError:
+    use_tentaclio = False
+
 from . import responses
 from . import schema_loader
 from . import request_decoder
@@ -26,6 +32,8 @@ class SqlQueryHandler(IPythonHandler):
             data = request_decoder.decode(self.request.body, self._validator)
             query = data["query"]
             connection_url = data["connectionUrl"]
+            if use_tentaclio:
+                connection_url = tentaclio.credentials.authenticate(connection_url).url
             yield query, connection_url
         except request_decoder.RequestDecodeError as e:
             response = responses.error(str(e))
@@ -63,6 +71,8 @@ class StructureHandler(IPythonHandler):
         try:
             data = request_decoder.decode(self.request.body, self._validator)
             connection_url = data["connectionUrl"]
+            if use_tentaclio:
+                connection_url = tentaclio.credentials.authenticate(connection_url).url
             yield connection_url
         except request_decoder.RequestDecodeError as e:
             response = responses.error(str(e))
@@ -97,6 +107,8 @@ class TableStructureHandler(IPythonHandler):
         try:
             data = request_decoder.decode(self.request.body, self._validator)
             connection_url = data["connectionUrl"]
+            if use_tentaclio:
+                connection_url = tentaclio.credentials.authenticate(connection_url).url
             table_name = data["table"]
             yield connection_url, table_name
         except request_decoder.RequestDecodeError as e:
