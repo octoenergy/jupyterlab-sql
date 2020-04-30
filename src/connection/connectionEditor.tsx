@@ -185,33 +185,30 @@ class ConnectionInformationHelper extends React.Component<{}> {
       <details className="jp-RenderedHTMLCommon">
         <summary>Help</summary>
         <p>
-          Press <code>Enter</code> to connect to the database.
+          Press <code>Enter</code> to connect to the data resource.
         </p>
         <p>
-          The URL must be a database URL. Follow the{' '}
+          The URL must follow {' '}
           <a
-            href="https://docs.sqlalchemy.org/en/13/core/engines.html#database-urls"
+            href="https://github.com/octoenergy/tentaclio#database-access"
             target="_blank"
           >
-            SQLAlchemy guide
+            Tentaclio's guidelines
           </a>{' '}
-          on URLs. For instance:
+          on supported databases. For instance, for automatic credential injection:
         </p>
         <ul>
           <li>
-            <pre>postgres://localhost:5432/postgres</pre>
+            <pre>postgresql://hostname/database</pre>
           </li>
           <li>
-            <pre>postgres://username:password@localhost:5432/postgres</pre>
+            <pre>awsathena+rest://hostname/database</pre>
           </li>
           <li>
-            <pre>mysql://localhost/employees</pre>
+            <pre>mssql://hostname/database</pre>
           </li>
           <li>
-            <pre>sqlite://</pre>
-          </li>
-          <li>
-            <pre>sqlite:///myfile.db</pre>
+            <pre>sqlite://hostname/database</pre>
           </li>
         </ul>
       </details>
